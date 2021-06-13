@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [repos, setRepos] = useState([])
+
+  useEffect(() => {
+
+    // fetch('https://api.github.com/users/syed-naseer-abbas/repos')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setRepos(data);
+    //     console.log(data, 'repos');
+    //   })
+
+    async function getRepos() {
+
+      const response = await fetch('https://api.github.com/users/syed-naseer-abbas/repos')
+      const jsonresponse = await response.json()
+      setRepos(jsonresponse)
+    }
+    getRepos()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <h1>API calls and Rendering lesson</h1>
+
+      {repos.map((repo, id) => <li key={id} style={{color : 'blue'}}>{repo.name}</li>)}
+
+
     </div>
   );
 }
